@@ -34,7 +34,6 @@ func HandleDog(bot *tgbotapi.BotAPI, id int64) {
 	conf := tgbotapi.NewPhoto(id, file)
 	if _, err := bot.Send(conf); err != nil {
 		fmt.Println(err)
-		return
 	}
 }
 

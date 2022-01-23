@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9000:9000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - POSTGRES_PASSWORD=sharaga
+      - POSTGRES_USER=sharagauser
+      - POSTGRES_DB=sharaga
+      - POSTGRES_HOST=db
+    entrypoint: ["/app/wait-for-it.sh", "db:5432", "--", "./main"]
+    command: [ "/app/main" ]
+
+  db:
+    image: postgres:latest
+    networks:
+      default:
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U sharagauser -d sharaga" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=sharaga
+      - POSTGRES_USER=sharagauser
+      - POSTGRES_DB=sharaga
+    ports:
+      - "5432:5432"
+networks:
+  default:
