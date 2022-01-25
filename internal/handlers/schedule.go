@@ -11,6 +11,7 @@ import (
 	"gorm.io/gorm/clause"
 	"regexp"
 	"strings"
+	"time"
 )
 
 func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
@@ -29,6 +30,12 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 	ds := strings.Split(update.Message.Text, " ")
 
 	if len(ds) == 2 {
+		if strings.ToLower(ds[1]) == "все" {
+			for _, d := range days {
+				printDay(d, bot, update)
+			}
+			return
+		}
 		for _, d := range days {
 			if strings.ToLower(d.Caption) == strings.ToLower(ds[1]) {
 				printDay(d, bot, update)
@@ -37,8 +44,15 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		}
 		utils.SendMessage(bot, update.FromChat().ID, "Нет такого дня в распорядке :(")
 	} else {
-		for _, d := range days {
-			printDay(d, bot, update)
+		now := int(time.Now().Weekday())
+		if len(days) >= now {
+			today := days[now]
+			printDay(today, bot, update)
+			return
+		} else {
+			for _, d := range days {
+				printDay(d, bot, update)
+			}
 		}
 	}
 }
