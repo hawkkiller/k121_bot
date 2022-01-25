@@ -69,7 +69,7 @@ func HandleUploadSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 
 		schedule := new(model.Schedule)
 
-		mErr := json.NewDecoder(res.Body).Decode(schedule)
+		mErr := json.NewDecoder(res.Body).Decode(&schedule)
 		if mErr != nil {
 			utils.SendMessage(bot, update.FromChat().ID, "Ошибка при трансформировании json - невалидная структура")
 			return
@@ -93,6 +93,7 @@ func HandleUploadSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 				utils.SendMessage(bot, update.FromChat().ID, err.Error())
 				return
 			}
+			internal.DB.Debug().Model(&foundSchedule).Update("timezone", schedule.Timezone)
 		}
 	} else {
 		msg := tgbotapi.NewMessage(update.FromChat().ID, "Изменять могут только администраторы")

@@ -44,7 +44,12 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		}
 		utils.SendMessage(bot, update.FromChat().ID, "Нет такого дня в распорядке :(")
 	} else {
-		now := int(time.Now().Weekday())
+		load, err := time.LoadLocation(s.Timezone)
+		if err != nil {
+			utils.SendMessage(bot, update.FromChat().ID, "Загружена неправильная таймзона :(")
+			return
+		}
+		now := int(time.Now().UTC().In(load).Weekday()) - 1
 		if len(days) >= now {
 			today := days[now]
 			printDay(today, bot, update)
