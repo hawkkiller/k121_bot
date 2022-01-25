@@ -93,7 +93,6 @@ func HandleUploadSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 				utils.SendMessage(bot, update.FromChat().ID, err.Error())
 				return
 			}
-			internal.DB.Debug().Model(&foundSchedule).Update("timezone", schedule.Timezone)
 		}
 	} else {
 		msg := tgbotapi.NewMessage(update.FromChat().ID, "Изменять могут только администраторы")
