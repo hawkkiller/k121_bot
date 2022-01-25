@@ -7,5 +7,4 @@ type Schedule struct {
 	ChatId     int64  `json:"-" gorm:"primaryKey;autoIncrement:false"`
 	Days       []Day  `json:"days" gorm:"many2many:foreignKey:schedule_days;"`
 	Times      []Time `json:"times" gorm:"many2many:foreignKey:schedule_times;"`
-	Timezone   string `json:"timezone"`
 }
