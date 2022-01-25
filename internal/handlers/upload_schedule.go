@@ -83,7 +83,6 @@ func HandleUploadSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 				return
 			}
 		} else {
-
 			err := internal.DB.Debug().Model(&foundSchedule).Association("Days").Replace(schedule.Days)
 			if err != nil {
 				utils.SendMessage(bot, update.FromChat().ID, err.Error())

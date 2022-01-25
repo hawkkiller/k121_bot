@@ -32,9 +32,11 @@ services:
     volumes:
       - ./.database/postgres/data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=sharaga
-      - POSTGRES_USER=sharagauser
-      - POSTGRES_DB=sharaga
+      POSTGRES_PASSWORD: sharaga
+      POSTGRES_USER: sharagauser
+      POSTGRES_DB: sharaga
+      PGDATA: /tmp
+
     ports:
       - "5432:5432"
 networks:
