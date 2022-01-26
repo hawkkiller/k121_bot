@@ -71,14 +71,14 @@ func printDay(d model.Day, bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 			str := strings.Replace(strings.Replace(string(found[:]), "(", "", -1), ")", "", -1)
 			strSplit := strings.Split(str, ":")
 			if len(strSplit) != 2 {
-				additionalInfo += fmt.Sprintf("%s\n", c)
+				additionalInfo += fmt.Sprintf("%s", c)
 				continue
 			}
 			strFormatted := fmt.Sprintf("`%s` : `%s`", strSplit[0], strSplit[1])
 			newCode := strings.Replace(c, str, strFormatted, -1)
-			additionalInfo += fmt.Sprintf("%s\n", newCode)
+			additionalInfo += fmt.Sprintf("\n%s", newCode)
 		}
-		message += fmt.Sprintf("\n*%s*\n_Код_: %s\n__Аудитория__: %s", p.Title, additionalInfo, p.Auditory)
+		message += fmt.Sprintf("\n\n*%s*\n_Код_: %s\n__Аудитория__: %s", p.Title, additionalInfo, p.Auditory)
 	}
 	utils.SendMessage(bot, update.FromChat().ID, message)
 }
