@@ -45,7 +45,7 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 	} else {
 		now := int(update.Message.Time().Weekday()) - 1
 
-		if len(days) >= now {
+		if len(days) >= now && now >= 0 {
 			today := days[now]
 			printDay(today, bot, update)
 			return
