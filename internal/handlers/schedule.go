@@ -50,9 +50,7 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 			printDay(today, bot, update)
 			return
 		} else {
-			for _, d := range days {
-				printDay(d, bot, update)
-			}
+			printDay(days[0], bot, update)
 		}
 	}
 }
