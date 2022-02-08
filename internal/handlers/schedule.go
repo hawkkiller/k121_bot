@@ -23,7 +23,7 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		}
 
 		utils.SendMessage(bot, update.FromChat().ID, err)
-
+		return
 	}
 	days := s.Days
 	ds := strings.Split(update.Message.Text, " ")
