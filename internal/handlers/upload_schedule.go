@@ -12,6 +12,11 @@ import (
 )
 
 func HandleUploadSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
+	defer func() {
+		if r := recover(); r != nil {
+			utils.SendMessage(bot, update.FromChat().ID, fmt.Sprintf("Encountered an error %s", r))
+		}
+	}()
 	user := update.SentFrom()
 	config := update.FromChat().ChatConfig()
 	administratorsConfig := tgbotapi.ChatAdministratorsConfig{ChatConfig: config}

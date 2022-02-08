@@ -26,7 +26,7 @@ func main() {
 		panic(err)
 	}
 
-	bot.Debug = true
+	bot.Debug = false
 
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
@@ -43,11 +43,12 @@ func main() {
 
 	internal.SetDB(db)
 
-	updateConfig := tgbotapi.NewUpdate(0)
-	updateConfig.Timeout = 1
+	updateConfig := tgbotapi.NewUpdate(1)
+	updateConfig.Timeout = 3
 	updates := bot.GetUpdatesChan(updateConfig)
 
 	for update := range updates {
+
 		if update.Message == nil {
 			continue
 		}
@@ -56,6 +57,7 @@ func main() {
 		case "hulp":
 			handlers.HandleHulp(bot, update)
 		case "dog":
+
 			handlers.HandleDog(bot, update.FromChat().ID)
 		case "couple":
 			handlers.HandleCouple(bot)

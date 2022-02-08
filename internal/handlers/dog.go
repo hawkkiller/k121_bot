@@ -5,11 +5,17 @@ import (
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/hawkkiller/k121_bot/internal/model"
+	"github.com/hawkkiller/k121_bot/pkg/utils"
 	"io/ioutil"
 	"net/http"
 )
 
 func HandleDog(bot *tgbotapi.BotAPI, id int64) {
+	defer func() {
+		if r := recover(); r != nil {
+			utils.SendMessage(bot, id, fmt.Sprintf("Encountered an error %s", r))
+		}
+	}()
 	dogUrl, dogUrlErr := http.Get("https://dog.ceo/api/breeds/image/random")
 	if dogUrlErr != nil {
 		return
@@ -17,7 +23,6 @@ func HandleDog(bot *tgbotapi.BotAPI, id int64) {
 	defer dogUrl.Body.Close()
 	var dog = new(model.DogPhoto)
 	jsonError := json.NewDecoder(dogUrl.Body).Decode(dog)
-
 	if jsonError != nil {
 		return
 	}
@@ -36,7 +41,3 @@ func HandleDog(bot *tgbotapi.BotAPI, id int64) {
 		fmt.Println(err)
 	}
 }
-
-//if _, err := bot.Send(msg); err != nil {
-//fmt.Println(err)
-//}
