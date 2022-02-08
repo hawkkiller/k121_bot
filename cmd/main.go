@@ -57,12 +57,8 @@ func main() {
 		case "hulp":
 			handlers.HandleHulp(bot, update)
 		case "dog":
-
 			handlers.HandleDog(bot, update.FromChat().ID)
-		case "couple":
-			handlers.HandleCouple(bot)
 		}
-
 		if update.Message.Caption == "/uploadSchedule" {
 			handlers.HandleUploadSchedule(bot, update)
 		}
