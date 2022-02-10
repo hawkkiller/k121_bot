@@ -56,6 +56,7 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 				Distance: strutil.Similarity(d.Caption, update.Message.Text, metrics.NewJaro()),
 			})
 		}
+		utils.SendMessage(bot, update.FromChat().ID, fmt.Sprintf("%v", args))
 
 		var biggest = dayIdentifier{}
 		for _, i := range args {
