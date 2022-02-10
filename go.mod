@@ -10,6 +10,8 @@ require (
 )
 
 require (
+	github.com/adrg/strutil v0.2.3 // indirect
+	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.10.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect

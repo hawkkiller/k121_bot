@@ -3,6 +3,8 @@ package handlers
 import (
 	"errors"
 	"fmt"
+	"github.com/adrg/strutil"
+	"github.com/adrg/strutil/metrics"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/hawkkiller/k121_bot/internal"
 	"github.com/hawkkiller/k121_bot/internal/model"
@@ -14,11 +16,11 @@ import (
 )
 
 func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
-	defer func() {
-		if r := recover(); r != nil {
-			utils.SendMessage(bot, update.FromChat().ID, fmt.Sprintf("Encountered an error %s", r))
-		}
-	}()
+	//defer func() {
+	//	if r := recover(); r != nil {
+	//		utils.SendMessage(bot, update.FromChat().ID, fmt.Sprintf("Encountered an error %s", r))
+	//	}
+	//}()
 	var s = new(model.Schedule)
 	db := internal.DB.Preload(clause.Associations).Preload("Times").Preload("Days.Pairs").Where("chat_id=?", update.FromChat().ID).Last(&s)
 	if db.Error != nil {
@@ -46,6 +48,28 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 				return
 			}
 		}
+		/// try to find string that is very similar
+		args := make([]dayIdentifier, 0)
+		for _, d := range days {
+			args = append(args, dayIdentifier{
+				Title:    d.Caption,
+				Distance: strutil.Similarity(d.Caption, update.Message.Text, metrics.NewJaro()),
+			})
+		}
+
+		var biggest = dayIdentifier{}
+		for _, i := range args {
+			if i.Distance > biggest.Distance {
+				biggest = i
+			}
+		}
+		for _, d := range days {
+			if d.Caption == biggest.Title {
+				printDay(d, bot, update)
+				return
+			}
+		}
+
 		utils.SendMessage(bot, update.FromChat().ID, "Нет такого дня в распорядке :(")
 	} else {
 		now := int(update.Message.Time().Weekday()) - 1
@@ -84,4 +108,9 @@ func printDay(d model.Day, bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		message += fmt.Sprintf("\n\n*%s*\n_Код_: %s\n__Аудитория__: %s", p.Title, additionalInfo, p.Auditory)
 	}
 	utils.SendMessage(bot, update.FromChat().ID, message)
+}
+
+type dayIdentifier struct {
+	Title    string
+	Distance float64
 }

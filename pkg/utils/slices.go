@@ -8,3 +8,12 @@ func InSlice(a interface{}, list []interface{}) bool {
 	}
 	return false
 }
+
+func Pos(slice []string, value string) int {
+	for p, v := range slice {
+		if v == value {
+			return p
+		}
+	}
+	return -1
+}
