@@ -53,7 +53,7 @@ func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		for _, d := range days {
 			args = append(args, dayIdentifier{
 				Title:    d.Caption,
-				Distance: strutil.Similarity(d.Caption, update.Message.Text, metrics.NewJaro()),
+				Distance: strutil.Similarity(d.Caption, update.Message.Text, metrics.NewJaccard()),
 			})
 		}
 		utils.SendMessage(bot, update.FromChat().ID, fmt.Sprintf("%v", args))
