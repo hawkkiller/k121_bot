@@ -16,11 +16,11 @@ import (
 )
 
 func HandleSchedule(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
-	//defer func() {
-	//	if r := recover(); r != nil {
-	//		utils.SendMessage(bot, update.FromChat().ID, fmt.Sprintf("Encountered an error %s", r))
-	//	}
-	//}()
+	defer func() {
+		if r := recover(); r != nil {
+			utils.SendMessage(bot, update.FromChat().ID, fmt.Sprintf("Encountered an error %s", r))
+		}
+	}()
 	var s = new(model.Schedule)
 	db := internal.DB.Preload(clause.Associations).Preload("Times").Preload("Days.Pairs").Where("chat_id=?", update.FromChat().ID).Last(&s)
 	if db.Error != nil {
