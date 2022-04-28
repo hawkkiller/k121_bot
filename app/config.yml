@@ -1,0 +1,11 @@
+---
+
+storage:
+  host: localhost
+  port: 5455
+  database: postgres
+  username: postgres
+  password: postgres
+  maxAttempts: 5
+telegram:
+  token: "5038476456:AAE3pwITMe_EOc1cGiEbsjzHox7TF135Bsk"
