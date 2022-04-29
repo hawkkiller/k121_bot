@@ -34,4 +34,4 @@ spec:
               value: /var/lib/postgresql/data/pgdata
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgres-pv-storage
+              name: postgres-pv-k121bot-storage
