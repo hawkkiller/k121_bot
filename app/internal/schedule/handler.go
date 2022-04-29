@@ -142,7 +142,7 @@ func (h *Handler) DownloadSchedule(ctx telebot.Context) error {
 		return err
 	}
 	file := telebot.FromReader(bytes.NewReader(b))
-	doc := &telebot.Document{File: file, Caption: "расписание.json"}
+	doc := &telebot.Document{File: file, Caption: "расписание", MIME: "application/json", FileName: "schedule.json"}
 	err = ctx.Reply(doc)
 	if err != nil {
 		return err
