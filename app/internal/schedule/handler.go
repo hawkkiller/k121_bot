@@ -94,7 +94,7 @@ func (h *Handler) UploadSchedule(ctx telebot.Context) error {
 	if err != nil {
 		return err
 	}
-	admin := false
+	admin := !ctx.Message().FromGroup()
 	for _, a := range of {
 		if a.User.ID == ctx.Message().Sender.ID {
 			admin = true
@@ -175,7 +175,8 @@ func (h *Handler) DeleteSchedule(ctx telebot.Context) error {
 	if err != nil {
 		return err
 	}
-	admin := false
+	admin := !ctx.Message().FromGroup()
+
 	for _, a := range of {
 		if a.User.ID == ctx.Message().Sender.ID {
 			admin = true
