@@ -171,22 +171,26 @@ func (h *Handler) DownloadSchedule(ctx telebot.Context) error {
 }
 
 func (h *Handler) DeleteSchedule(ctx telebot.Context) error {
-	of, err := ctx.Bot().AdminsOf(ctx.Message().Chat)
-	if err != nil {
-		return err
-	}
 	admin := !ctx.Message().FromGroup()
 
-	for _, a := range of {
-		if a.User.ID == ctx.Message().Sender.ID {
-			admin = true
+	if ctx.Message().FromGroup() {
+		of, err := ctx.Bot().AdminsOf(ctx.Message().Chat)
+		if err != nil {
+			return err
+		}
+
+		for _, a := range of {
+			if a.User.ID == ctx.Message().Sender.ID {
+				admin = true
+			}
 		}
 	}
+
 	if !admin {
 		return ctx.Reply("Вы не администратор")
 	}
 	// delete schedule from database using service
-	err = h.Service.DeleteSchedule(context.Background(), ctx.Message().Chat.ID)
+	err := h.Service.DeleteSchedule(context.Background(), ctx.Message().Chat.ID)
 	if err != nil {
 		h.Logger.Error(err)
 		return err
