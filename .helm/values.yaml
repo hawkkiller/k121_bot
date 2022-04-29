@@ -1,0 +1,19 @@
+image:
+  repository: ""
+  tag: ""
+container:
+  port: 80
+  targetPort: 8080
+  pullPolicy: Always
+  restartPolicy: Always
+
+replicaCount: 1
+
+config:
+  db:
+    url: "jdbc:postgresql://postgres-user-service:5432/postgres"
+    username: postgres
+    password: postgres
+    driver_class_name: org.postgresql.Driver
+    retries: 5
+    baseline: true

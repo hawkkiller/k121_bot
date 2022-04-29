@@ -19,7 +19,7 @@ func NewService(userStorage Storage, logger logging.Logger) (Service, error) {
 
 type Service interface {
 	CreateSchedule(schedule Schedule) error
-	GetSchedule(ctx context.Context) Schedule
+	GetSchedule(ctx context.Context, chatId int64) (Schedule, error)
 }
 
 func (s service) CreateSchedule(schedule Schedule) error {
@@ -27,11 +27,14 @@ func (s service) CreateSchedule(schedule Schedule) error {
 	if err != nil {
 		return err
 	}
-	//TODO implement me
-	panic("implement me")
+	return nil
 }
 
-func (s service) GetSchedule(ctx context.Context) Schedule {
-	//TODO implement me
-	panic("implement me")
+func (s service) GetSchedule(ctx context.Context, chatId int64) (Schedule, error) {
+	schedule, err := s.storage.FindOne(ctx, chatId)
+	if err != nil {
+		s.logger.Error(err)
+		return Schedule{}, err
+	}
+	return schedule, nil
 }

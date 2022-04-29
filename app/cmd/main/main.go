@@ -43,9 +43,10 @@ func main() {
 
 	logger.Infof("Create bot")
 	pref := telebot.Settings{
-		Token:   cfg.Telegram.Token,
-		Poller:  &telebot.LongPoller{Timeout: 60 * time.Second},
-		Verbose: false,
+		Token:     cfg.Telegram.Token,
+		Poller:    &telebot.LongPoller{Timeout: 60 * time.Second},
+		Verbose:   false,
+		ParseMode: telebot.ModeMarkdown,
 	}
 	bot, err := telebot.NewBot(pref)
 	if err != nil {

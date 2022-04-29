@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deploy
+  labels:
+    app: {{ .Release.Name }}-deploy
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      project: {{ .Release.Name }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        project: {{ .Release.Name }}
+    spec:
+      restartPolicy: {{ .Values.container.restartPolicy }}
+      containers:
+        - name: {{ .Release.Name }}-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.container.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.container.targetPort }}
+      initContainers:
+        - name: schema-migration
+          image: flyway/flyway
+          args: [ 'migrate' ]
+          env:
+            - name: FLYWAY_LOCATIONS
+              value: 'filesystem:/flyway/migrations'
+          envFrom:
+            - configMapRef:
+                name: k121bot-service-cm
+          volumeMounts:
+            - name: bot-volume
+              mountPath: /flyway/migrations
+      volumes:
+        - name: bot-volume
+          configMap:
+            name: postgres-k121bot-cm
+

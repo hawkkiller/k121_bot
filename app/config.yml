@@ -1,7 +1,7 @@
 ---
 
 storage:
-  host: localhost
+  host: postgres-k121bot-service
   port: 5455
   database: postgres
   username: postgres

@@ -2,3 +2,4 @@
 /pg-data
 /postgresql.conf
 .idea
+/app/logs/

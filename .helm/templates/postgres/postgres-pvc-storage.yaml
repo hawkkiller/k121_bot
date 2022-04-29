@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc-k121bot-storage
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+
+  resources:
+    requests:
+      storage: 1Gi

@@ -24,25 +24,3 @@ CREATE TABLE IF NOT EXISTS pairs
         REFERENCES days (id)
         ON DELETE CASCADE
 );
-
-INSERT INTO schedules
-    DEFAULT
-VALUES;
-
-SELECT *
-FROM schedules;
-
-SELECT *
-FROM days;
-
-
-
-DELETE FROM schedules;
-DELETE FROM pairs;
-DELETE FROM days;
-
-drop table if exists schedules cascade;
-drop table if exists days cascade;
-drop table if exists pairs cascade;
-
-
