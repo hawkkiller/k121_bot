@@ -3,7 +3,6 @@ package schedule
 import (
 	"bytes"
 	"context"
-	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"github.com/hawkkiller/k121_bot/pkg/logging"
@@ -137,12 +136,12 @@ func (h *Handler) DownloadSchedule(ctx telebot.Context) error {
 		h.Logger.Error(err)
 		return err
 	}
-	var binBuf bytes.Buffer
-	err = binary.Write(&binBuf, binary.BigEndian, schedule)
+	b, err := json.Marshal(schedule)
 	if err != nil {
+		h.Logger.Error(err)
 		return err
 	}
-	file := telebot.FromReader(bytes.NewReader(binBuf.Bytes()))
+	file := telebot.FromReader(bytes.NewReader(b))
 	doc := &telebot.Document{File: file, Caption: "расписание.json"}
 	err = ctx.Reply(doc)
 	if err != nil {
