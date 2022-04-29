@@ -116,8 +116,10 @@ func (h *Handler) AnswerAudio(ctx telebot.Context) error {
 func (h *Handler) Help(ctx telebot.Context) error {
 	err := ctx.Reply("" +
 		"Здесь вы можете создать [расписание](https://site.michaeldeveloper.com)\n" +
+		"Формат конфы: Учитель-код-пароль\n" +
 		"Чтобы получить расписание напишите расписание или выберите день недели\n" +
 		"Например: `расписание понедельник` или `расписание`\n" +
+		"Исходный код - [github](https://github.com/hawkkiller/k121_bot/)\n" +
 		"")
 	if err != nil {
 		return err
