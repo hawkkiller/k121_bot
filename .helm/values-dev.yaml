@@ -12,7 +12,7 @@ replicaCount: 1
 
 config:
   db:
-    url: "jdbc:postgresql://postgres-user-service:5432/postgres"
+    url: "jdbc:postgresql://postgres-k121bot-service:5455/postgres"
     username: postgres
     password: postgres
     driver_class_name: org.postgresql.Driver
