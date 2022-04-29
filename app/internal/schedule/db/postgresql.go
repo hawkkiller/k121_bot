@@ -124,3 +124,21 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 	s.Days = days
 	return *s, nil
 }
+
+func (db *db) Delete(ctx context.Context, chatId int64) error {
+	sql, args, err := sq.Delete("schedules").
+		Where(sq.Eq{"chat_id": chatId}).
+		PlaceholderFormat(sq.Dollar).
+		ToSql()
+	if err != nil {
+		db.logger.Error(err)
+		return err
+	}
+
+	_, err = db.client.Exec(ctx, sql, args...)
+	if err != nil {
+		db.logger.Error(err)
+		return err
+	}
+	return nil
+}

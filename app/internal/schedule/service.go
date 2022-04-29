@@ -18,12 +18,21 @@ func NewService(userStorage Storage, logger logging.Logger) (Service, error) {
 }
 
 type Service interface {
-	CreateSchedule(schedule Schedule) error
+	CreateSchedule(ctx context.Context, schedule Schedule) error
 	GetSchedule(ctx context.Context, chatId int64) (Schedule, error)
+	DeleteSchedule(ctx context.Context, chatId int64) error
 }
 
-func (s service) CreateSchedule(schedule Schedule) error {
-	err := s.storage.Create(context.Background(), schedule)
+func (s service) CreateSchedule(ctx context.Context, schedule Schedule) error {
+	err := s.storage.Create(ctx, schedule)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s service) DeleteSchedule(ctx context.Context, chatId int64) error {
+	err := s.storage.Delete(ctx, chatId)
 	if err != nil {
 		return err
 	}

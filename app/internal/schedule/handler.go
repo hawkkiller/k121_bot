@@ -20,6 +20,7 @@ type Handler struct {
 func (h *Handler) Register() {
 	h.Bot.Handle("хелп", h.Help)
 	h.Bot.Handle("скачать расписание", h.DownloadSchedule)
+	h.Bot.Handle("удалить расписание", h.DeleteSchedule)
 	h.Bot.Handle(telebot.OnText, h.GetSchedule)
 	h.Bot.Handle(telebot.OnEdited, h.GetSchedule)
 	h.Bot.Handle(telebot.OnVoice, h.AnswerAudio)
@@ -102,7 +103,7 @@ func (h *Handler) UploadSchedule(ctx telebot.Context) error {
 	}
 	model.ChatId = int(ctx.Message().Chat.ID)
 
-	err = h.Service.CreateSchedule(model)
+	err = h.Service.CreateSchedule(context.Background(), model)
 	if err != nil {
 		return err
 	}
@@ -151,6 +152,16 @@ func (h *Handler) DownloadSchedule(ctx telebot.Context) error {
 	doc := &telebot.Document{File: file, Caption: "расписание", MIME: "application/json", FileName: "schedule.json"}
 	err = ctx.Reply(doc)
 	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *Handler) DeleteSchedule(ctx telebot.Context) error {
+	// delete schedule from database using service
+	err := h.Service.DeleteSchedule(context.Background(), ctx.Message().Chat.ID)
+	if err != nil {
+		h.Logger.Error(err)
 		return err
 	}
 	return nil
