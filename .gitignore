@@ -3,3 +3,4 @@
 /postgresql.conf
 .idea
 /app/logs/
+/app/vendor
