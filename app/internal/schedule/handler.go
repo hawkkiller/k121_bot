@@ -1,7 +1,9 @@
 package schedule
 
 import (
+	"bytes"
 	"context"
+	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"github.com/hawkkiller/k121_bot/pkg/logging"
@@ -18,6 +20,7 @@ type Handler struct {
 
 func (h *Handler) Register() {
 	h.Bot.Handle("хелп", h.Help)
+	h.Bot.Handle("скачать расписание", h.DownloadSchedule)
 	h.Bot.Handle(telebot.OnText, h.GetSchedule)
 	h.Bot.Handle(telebot.OnEdited, h.GetSchedule)
 	h.Bot.Handle(telebot.OnVoice, h.AnswerAudio)
@@ -121,6 +124,27 @@ func (h *Handler) Help(ctx telebot.Context) error {
 		"Например: `расписание понедельник` или `расписание`\n" +
 		"Исходный код - [github](https://github.com/hawkkiller/k121_bot/)\n" +
 		"")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *Handler) DownloadSchedule(ctx telebot.Context) error {
+	// send schedule from database
+	schedule, err := h.Service.GetSchedule(context.Background(), ctx.Message().Chat.ID)
+	if err != nil {
+		h.Logger.Error(err)
+		return err
+	}
+	var binBuf bytes.Buffer
+	err = binary.Write(&binBuf, binary.BigEndian, schedule)
+	if err != nil {
+		return err
+	}
+	file := telebot.FromReader(bytes.NewReader(binBuf.Bytes()))
+	doc := &telebot.Document{File: file, Caption: "расписание.json"}
+	err = ctx.Reply(doc)
 	if err != nil {
 		return err
 	}
