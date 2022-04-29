@@ -15,9 +15,9 @@ spec:
         app: postgres-k121bot-deploy
     spec:
       volumes:
-        - name: postgres-pv-storage
+        - name: postgres-pv-k121bot-storage
           persistentVolumeClaim:
-            claimName: postgres-pvc-storage
+            claimName: postgres-pvc-k121bot-storage
       containers:
         - name: postgres
           image: postgres:alpine3.15
