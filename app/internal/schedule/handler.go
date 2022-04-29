@@ -164,5 +164,9 @@ func (h *Handler) DeleteSchedule(ctx telebot.Context) error {
 		h.Logger.Error(err)
 		return err
 	}
+	err = ctx.Reply("Расписание удалено")
+	if err != nil {
+		return err
+	}
 	return nil
 }

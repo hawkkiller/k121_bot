@@ -140,5 +140,6 @@ func (db *db) Delete(ctx context.Context, chatId int64) error {
 		db.logger.Error(err)
 		return err
 	}
+
 	return nil
 }
