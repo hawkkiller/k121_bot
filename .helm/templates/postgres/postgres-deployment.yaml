@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: postgres-deploy
+  name: postgres-deploy-k121bot
 
 spec:
   replicas: 1
