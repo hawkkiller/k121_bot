@@ -90,16 +90,21 @@ func (h *Handler) GetSchedule(ctx telebot.Context) error {
 }
 
 func (h *Handler) UploadSchedule(ctx telebot.Context) error {
-	of, err := ctx.Bot().AdminsOf(ctx.Message().Chat)
-	if err != nil {
-		return err
-	}
 	admin := !ctx.Message().FromGroup()
-	for _, a := range of {
-		if a.User.ID == ctx.Message().Sender.ID {
-			admin = true
+
+	if ctx.Message().FromGroup() {
+		of, err := ctx.Bot().AdminsOf(ctx.Message().Chat)
+		if err != nil {
+			return err
+		}
+
+		for _, a := range of {
+			if a.User.ID == ctx.Message().Sender.ID {
+				admin = true
+			}
 		}
 	}
+
 	if !admin {
 		return ctx.Reply("Вы не администратор")
 	}
