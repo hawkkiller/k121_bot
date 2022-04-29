@@ -2,7 +2,7 @@
 
 storage:
   host: postgres-k121bot-service
-  port: 5455
+  port: 5432
   database: postgres
   username: postgres
   password: postgres
