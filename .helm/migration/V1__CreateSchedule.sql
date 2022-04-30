@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS schedules
 CREATE TABLE IF NOT EXISTS days
 (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    schedule_id INT NOT NULL,
+    schedule_id UUID NOT NULL,
     caption     TEXT DEFAULT '',
     CONSTRAINT fk_schedule FOREIGN KEY (schedule_id)
         REFERENCES schedules (id)
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS days
 CREATE TABLE IF NOT EXISTS pairs
 (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    day_id      INT NOT NULL,
+    day_id      UUID NOT NULL,
     title       TEXT DEFAULT '',
     information TEXT,
     CONSTRAINT fk_day FOREIGN KEY (day_id)
