@@ -41,7 +41,7 @@ func (h *Handler) GetSchedule(ctx telebot.Context) error {
 		return err
 	}
 
-	if schedule.ID == 0 {
+	if schedule.ID == "" {
 		h.Logger.Info("Schedule not found")
 		err = ctx.Reply("Расписание не найдено")
 		return nil
