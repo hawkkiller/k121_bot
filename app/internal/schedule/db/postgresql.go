@@ -83,7 +83,6 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 	sql, args, _ := sq.Select("id", "chat_id").
 		From("schedules").
 		Where(sq.Eq{"chat_id": chatId}).
-		OrderBy("id DESC").
 		Limit(1).
 		PlaceholderFormat(sq.Dollar).
 		ToSql()
@@ -95,7 +94,6 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 	sql, args, _ = sq.Select("id", "caption").
 		From("days").
 		Where(sq.Eq{"schedule_id": s.ID}).
-		OrderBy("id ASC").
 		PlaceholderFormat(sq.Dollar).
 		ToSql()
 
@@ -109,7 +107,6 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 		sql, args, _ = sq.Select("id", "information", "title").
 			From("pairs").
 			Where(sq.Eq{"day_id": day.ID}).
-			OrderBy("id ASC").
 			PlaceholderFormat(sq.Dollar).
 			ToSql()
 		rows, _ := db.client.Query(ctx, sql, args...)

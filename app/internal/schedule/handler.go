@@ -61,13 +61,13 @@ func (h *Handler) GetSchedule(ctx telebot.Context) error {
 
 	day := new(Day)
 
-	today := int(time.Now().Weekday()) - 1
+	today := int(time.Now().Weekday())
 
-	if len(schedule.Days) < today || today < 0 {
+	if len(schedule.Days)-1 < today || today < 0 {
 		today = 0
 	}
 
-	if len(schedule.Days) >= today {
+	if len(schedule.Days)-1 >= today {
 		day = &schedule.Days[today]
 	}
 

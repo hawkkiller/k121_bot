@@ -12,11 +12,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      - POSTGRES_PASSWORD=sharaga
-      - POSTGRES_USER=sharagauser
-      - POSTGRES_DB=sharaga
-      - POSTGRES_HOST=db
     entrypoint: ["/app/wait-for-it.sh", "db:5432", "--", "./main"]
     command: [ "/app/main" ]
 
@@ -25,16 +20,16 @@ services:
     networks:
       default:
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U sharagauser -d sharaga" ]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
       - ./.database/postgres/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: sharaga
-      POSTGRES_USER: sharagauser
-      POSTGRES_DB: sharaga
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
       PGDATA: /tmp
 
     ports:
