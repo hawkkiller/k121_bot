@@ -28,6 +28,16 @@ func (h *Handler) Register() {
 }
 
 func (h *Handler) GetSchedule(ctx telebot.Context) error {
+	// defer recover func
+	defer func() {
+		if r := recover(); r != nil {
+			h.Logger.Error(fmt.Sprintf("%v", r))
+			err := ctx.Send(fmt.Sprintf("%v", r))
+			if err != nil {
+				return
+			}
+		}
+	}()
 	text := ctx.Message().Text
 	// if message starts with расписание
 	if !strings.HasPrefix(strings.ToLower(text), "расписание") {
