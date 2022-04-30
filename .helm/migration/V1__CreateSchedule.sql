@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS schedules
 (
-    id      BIGSERIAL PRIMARY KEY,
+    id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     chat_id BIGINT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS days
 (
-    id          BIGSERIAL PRIMARY KEY,
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     schedule_id INT NOT NULL,
     caption     TEXT DEFAULT '',
     CONSTRAINT fk_schedule FOREIGN KEY (schedule_id)
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS days
 
 CREATE TABLE IF NOT EXISTS pairs
 (
-    id          BIGSERIAL PRIMARY KEY,
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     day_id      INT NOT NULL,
     title       TEXT DEFAULT '',
     information TEXT,
