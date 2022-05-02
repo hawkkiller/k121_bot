@@ -79,10 +79,13 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 	}
 
 	s := new(schedule.Schedule)
+	// filter by newest date
+
 	//get schedule
 	sql, args, _ := sq.Select("id", "chat_id").
 		From("schedules").
 		Where(sq.Eq{"chat_id": chatId}).
+		OrderBy("date_created DESC").
 		Limit(1).
 		PlaceholderFormat(sq.Dollar).
 		ToSql()
