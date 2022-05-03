@@ -100,6 +100,11 @@ func (h *Handler) GetSchedule(ctx telebot.Context) error {
 }
 
 func (h *Handler) UploadSchedule(ctx telebot.Context) error {
+	doc := ctx.Message().Document
+	// check if file is a json mime type
+	if doc.MIME != "application/json" {
+		return nil
+	}
 	admin := !ctx.Message().FromGroup()
 
 	if ctx.Message().FromGroup() {
@@ -119,11 +124,7 @@ func (h *Handler) UploadSchedule(ctx telebot.Context) error {
 		return ctx.Reply("Вы не администратор")
 	}
 	model := Schedule{}
-	doc := ctx.Message().Document
-	// check if file is a json mime type
-	if doc.MIME != "application/json" {
-		return nil
-	}
+
 	file, err := ctx.Bot().File(&doc.File)
 	if err != nil {
 		h.Logger.Error(err)
