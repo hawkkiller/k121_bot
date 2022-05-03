@@ -120,6 +120,10 @@ func (h *Handler) UploadSchedule(ctx telebot.Context) error {
 	}
 	model := Schedule{}
 	doc := ctx.Message().Document
+	// check if file is a json mime type
+	if doc.MIME != "application/json" {
+		return nil
+	}
 	file, err := ctx.Bot().File(&doc.File)
 	if err != nil {
 		h.Logger.Error(err)
