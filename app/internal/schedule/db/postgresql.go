@@ -115,6 +115,7 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 		for rows.Next() {
 			pair := new(schedule.Pair)
 			_ = rows.Scan(&pair.ID, &pair.AdditionalInfo, &pair.Title)
+			db.logger.Infof("pair: %+v", pair)
 			pairs = append(pairs, *pair)
 		}
 		day.Pairs = pairs
