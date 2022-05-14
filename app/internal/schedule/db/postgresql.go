@@ -96,6 +96,7 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 	sql, args, _ = sq.Select("d.id", "d.caption").
 		From("schedules").
 		LeftJoin("days d on schedules.id=d.schedule_id").
+		Where(sq.Eq{"schedules.id": s.ID}).
 		ToSql()
 
 	rows, _ := db.client.Query(ctx, sql, args...)
@@ -105,10 +106,10 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 		_ = rows.Scan(&day.ID, &day.Caption)
 		pairs := make([]schedule.Pair, 0)
 		// get pairs from certain day
-		sql, args, _ = sq.Select("id", "information", "title").
-			From("pairs").
-			Where(sq.Eq{"day_id": day.ID}).
-			PlaceholderFormat(sq.Dollar).
+		sql, args, _ = sq.Select("p.id", "p.information", "p.title").
+			From("days").
+			LeftJoin("pairs p on days.id=p.day_id").
+			Where(sq.Eq{"days.id": day.ID}).
 			ToSql()
 		rows, _ := db.client.Query(ctx, sql, args...)
 		for rows.Next() {
