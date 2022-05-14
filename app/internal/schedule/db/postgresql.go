@@ -93,10 +93,9 @@ func (db *db) FindOne(ctx context.Context, chatId int64) (schedule.Schedule, err
 
 	days := make([]schedule.Day, 0)
 	//get days
-	sql, args, _ = sq.Select("id", "caption").
-		From("days").
-		Where(sq.Eq{"schedule_id": s.ID}).
-		PlaceholderFormat(sq.Dollar).
+	sql, args, _ = sq.Select("d.id", "d.caption").
+		From("schedules").
+		LeftJoin("days d on schedules.id=d.schedule_id").
 		ToSql()
 
 	rows, _ := db.client.Query(ctx, sql, args...)
