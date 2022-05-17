@@ -20,7 +20,7 @@ type Client interface {
 }
 
 func NewClient(ctx context.Context, sc config.StorageConfig) (pool *pgxpool.Pool, err error) {
-	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s",
+	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=require",
 		sc.Username, sc.Password, sc.Host, sc.Port, sc.Database,
 	)
 	err = utils.DoWithTries(func() error {

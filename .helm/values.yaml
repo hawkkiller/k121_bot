@@ -13,7 +13,7 @@ namespace: default
 
 config:
   db:
-    url: "jdbc:postgresql://postgres-k121bot-service:5432/postgres"
+    url: ""
     username: postgres
     password: postgres
     driver_class_name: org.postgresql.Driver
