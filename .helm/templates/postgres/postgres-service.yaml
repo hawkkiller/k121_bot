@@ -3,6 +3,8 @@ kind: Service
 
 metadata:
   name: postgres-k121bot-service
+  namespace: {{.Values.namespace}}
+
   labels:
     app: postgres-k121bot-service
 spec:

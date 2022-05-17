@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: k121bot-service
+  namespace: {{.Values.namespace}}
+
 spec:
   selector:
     project: {{ .Release.Name }}

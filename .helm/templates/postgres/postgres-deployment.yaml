@@ -3,6 +3,8 @@ kind: Deployment
 
 metadata:
   name: postgres-deploy-k121bot
+  namespace: {{.Values.namespace}}
+
 
 spec:
   replicas: 1

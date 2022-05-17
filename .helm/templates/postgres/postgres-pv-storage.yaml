@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: postgres-pv-k121bot-storage
+  namespace: {{.Values.namespace}}
+
   labels:
     type: local
 spec:

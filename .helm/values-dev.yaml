@@ -9,6 +9,7 @@ container:
   restartPolicy: Always
 
 replicaCount: 1
+namespace: k121bot
 
 config:
   db:
