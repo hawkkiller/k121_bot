@@ -23,7 +23,7 @@ spec:
       containers:
         - name: postgres
           image: postgres:alpine3.15
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
           env:
@@ -33,7 +33,7 @@ spec:
                   name: postgresql-k121bot-service-secret-config
                   key: password
             - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
+              value: /var/lib/postgresql/data/volume/pgdata
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql/volume/data
               name: postgres-pv-k121bot-storage
