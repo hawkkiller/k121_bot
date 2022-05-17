@@ -10,5 +10,5 @@ data:
   FLYWAY_USER: {{ .Values.db.username }}
   FLYWAY_PASSWORD: {{ .Values.db.password }}
   FLYWAY_CONNECT_RETRIES: "{{ .Values.db.retries }}"
-  driver-class-name: {{ .Values.config.db.driver_class_name }}
-  FLYWAY_BASELINE_ON_MIGRATE: "{{ .Values.config.db.baseline }}"
+  driver-class-name: {{ .Values.db.driver_class_name }}
+  FLYWAY_BASELINE_ON_MIGRATE: "{{ .Values.db.baseline }}"
