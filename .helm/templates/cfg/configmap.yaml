@@ -6,9 +6,9 @@ metadata:
   labels:
     name: k121bot-service-cm
 data:
-  FLYWAY_URL: {{ .Values.config.db.url }}
-  FLYWAY_USER: {{ .Values.config.db.username }}
-  FLYWAY_PASSWORD: {{ .Values.config.db.password }}
-  FLYWAY_CONNECT_RETRIES: "{{ .Values.config.db.retries }}"
+  FLYWAY_URL: {{ .Values.db.url }}
+  FLYWAY_USER: {{ .Values.db.username }}
+  FLYWAY_PASSWORD: {{ .Values.db.password }}
+  FLYWAY_CONNECT_RETRIES: "{{ .Values.db.retries }}"
   driver-class-name: {{ .Values.config.db.driver_class_name }}
   FLYWAY_BASELINE_ON_MIGRATE: "{{ .Values.config.db.baseline }}"
