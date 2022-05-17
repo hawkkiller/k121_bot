@@ -43,7 +43,7 @@ jobs:
           -f ./.helm/values-dev.yaml \
           --set image.tag=${{ steps.vars.outputs.sha_short }} \
           --set db.host=${{ secrets.DATABASE_HOST }} \
-          --set db.url=${{ secrets.DATABASE_DSN }} \
+          --set db.url=${{ secrets.DATABASE_DSN_JDBC }} \
           --set db.port=${{ secrets.DATABASE_PORT }} \
           --set db.password=${{ secrets.DATABASE_PASSWORD }} \
           --set db.username=${{ secrets.DATABASE_USERNAME }} \
