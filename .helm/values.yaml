@@ -13,9 +13,12 @@ namespace: default
 
 config:
   db:
-    url: ""
-    username: postgres
-    password: postgres
+    host: ""
+    url: "" # dsn
+    name: ""
+    port: 0
+    username: ""
+    password: ""
     driver_class_name: org.postgresql.Driver
     retries: 5
     baseline: true

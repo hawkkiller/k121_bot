@@ -8,7 +8,6 @@ metadata:
     app: {{ .Release.Name }}-deploy
 spec:
   replicas: {{ .Values.replicaCount }}
-
   selector:
     matchLabels:
       project: {{ .Release.Name }}
@@ -26,6 +25,17 @@ spec:
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           ports:
             - containerPort: {{ .Values.container.targetPort }}
+          env:
+            - name: DATABASE_HOST
+              value: {{ .Values.config.db.host }}
+            - name: DATABASE_PORT
+              value: {{ .Values.config.db.port }}
+            - name: DATABASE_USERNAME
+              value: {{ .Values.config.db.username }}
+            - name: DATABASE_PASSWORD
+              value: {{ .Values.config.db.password }}
+            - name: DATABASE_NAME
+              value: {{ .Values.config.db.name }}
       initContainers:
         - name: schema-migration
           image: flyway/flyway

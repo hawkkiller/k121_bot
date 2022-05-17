@@ -12,13 +12,14 @@ type Config struct {
 }
 
 type StorageConfig struct {
-	Host        string `yaml:"host"`
-	Port        string `yaml:"port"`
-	Database    string `yaml:"database"`
-	Username    string `yaml:"username"`
-	Password    string `yaml:"password"`
-	MaxAttempts int8   `yaml:"maxAttempts"`
+	Host        string `yaml:"host" env:"DATABASE_HOST" env-required:"true"`
+	Port        string `yaml:"port" env:"DATABASE_PORT" env-required:"true"`
+	Database    string `yaml:"database" env:"DATABASE_NAME" env-required:"true"`
+	Username    string `yaml:"username" env:"DATABASE_USERNAME" env-required:"true"`
+	Password    string `yaml:"password" env:"DATABASE_PASSWORD" env-required:"true"`
+	MaxAttempts int8   `yaml:"maxAttempts" env:"MAX_ATTEMPTS" env-default:"5"`
 }
+
 type TelegramConfig struct {
 	Token string `yaml:"token" env-required:"true"`
 }

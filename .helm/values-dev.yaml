@@ -13,9 +13,12 @@ namespace: k121bot
 
 config:
   db:
-    url: "jdbc:postgresql://k121bot-do-user-11432745-0.b.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
-    username: doadmin
-    password: AVNS_5cxydjDQT162Mz6
+    host: ""
+    url: "" # dsn
+    name: ""
+    port: 0
+    username: ""
+    password: ""
     driver_class_name: org.postgresql.Driver
     retries: 5
     baseline: true
