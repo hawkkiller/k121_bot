@@ -12,12 +12,12 @@ replicaCount: 1
 namespace: k121bot
 
 db:
-  host:
-  url:  # dsn
-  name:
-  port:
-  username:
-  password:
+  host: ""
+  url: ""# dsn
+  name: ""
+  port: ""
+  username: ""
+  password: ""
   driver_class_name: org.postgresql.Driver
   retries: 5
   baseline: true
