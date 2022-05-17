@@ -42,9 +42,10 @@ jobs:
           helm --debug upgrade --install \
           -f ./.helm/values-dev.yaml \
           --set image.tag=${{ steps.vars.outputs.sha_short }} \
-          --set config.db.host=${{ secrets.DATABASE_HOST }} \
-          --set config.db.url=${{ secrets.DATABASE_DSN }} \
-          --set config.db.port=${{ secrets.DATABASE_PORT }} \
-          --set config.db.password=${{ secrets.DATABASE_PASSWORD }} \
-          --set config.db.username=${{ secrets.DATABASE_USERNAME }} \
+          --set db.host=${{ secrets.DATABASE_HOST }} \
+          --set db.url=${{ secrets.DATABASE_DSN }} \
+          --set db.port=${{ secrets.DATABASE_PORT }} \
+          --set db.password=${{ secrets.DATABASE_PASSWORD }} \
+          --set db.username=${{ secrets.DATABASE_USERNAME }} \
+          --set db.name=${{ secrets.DATABASE_NAME }} \
           k121bot ./.helm
