@@ -13,12 +13,12 @@ namespace: k121bot
 
 config:
   db:
-    host: ""
-    url: "" # dsn
-    name: ""
-    port: 0
-    username: ""
-    password: ""
+    host:
+    url:  # dsn
+    name:
+    port:
+    username:
+    password:
     driver_class_name: org.postgresql.Driver
     retries: 5
     baseline: true
