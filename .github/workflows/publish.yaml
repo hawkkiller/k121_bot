@@ -51,4 +51,5 @@ jobs:
           --set db.password=${{ secrets.DATABASE_PASSWORD }} \
           --set db.username=${{ secrets.DATABASE_USERNAME }} \
           --set db.name=${{ secrets.DATABASE_NAME }} \
+          --set telegram.token=${{ secrets.TELEGRAM_TOKEN }} \
           k121bot ./.helm

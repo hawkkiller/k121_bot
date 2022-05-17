@@ -21,7 +21,7 @@ type StorageConfig struct {
 }
 
 type TelegramConfig struct {
-	Token string `yaml:"token" env-required:"true"`
+	Token string `yaml:"token" env:"TELEGRAM_TOKEN" env-required:"true"`
 }
 
 var instance *Config

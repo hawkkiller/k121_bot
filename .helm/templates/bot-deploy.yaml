@@ -36,6 +36,9 @@ spec:
               value: "{{ .Values.db.password }}"
             - name: DATABASE_NAME
               value: "{{ .Values.db.name }}"
+            - name: TELEGRAM_TOKEN
+              value: "{{ .Values.telegram.token }}"
+
       initContainers:
         - name: schema-migration
           image: flyway/flyway
