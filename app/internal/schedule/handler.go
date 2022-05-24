@@ -23,7 +23,6 @@ func (h *Handler) Register() {
 	h.Bot.Handle("удалить расписание", h.DeleteSchedule)
 	h.Bot.Handle(telebot.OnText, h.GetSchedule)
 	h.Bot.Handle(telebot.OnEdited, h.GetSchedule)
-	h.Bot.Handle(telebot.OnVoice, h.AnswerAudio)
 	h.Bot.Handle(telebot.OnDocument, h.UploadSchedule)
 }
 
@@ -141,14 +140,6 @@ func (h *Handler) UploadSchedule(ctx telebot.Context) error {
 		return err
 	}
 	err = ctx.Reply("Запись успешно добавлена")
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (h *Handler) AnswerAudio(ctx telebot.Context) error {
-	err := ctx.Reply("Удалил при мне.")
 	if err != nil {
 		return err
 	}
