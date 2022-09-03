@@ -41,7 +41,6 @@ jobs:
       - name: 🚀Deploy to server
         run: |
           ssh ${{ secrets.VPS_IP }}
+          docker rm -f k121bot
           docker pull michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
-          docker stop k121bot
-          docker rm k121bot
-          docker run -d --name k121bot michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
+          docker compose up --build
