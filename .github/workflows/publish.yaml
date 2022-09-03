@@ -1,7 +1,12 @@
 name: CICD-PIPE
 on:
   push:
+    branches:
+      - master
+      - feature/*
   pull_request:
+    branches:
+      - master
   workflow_dispatch:
     
 jobs:
@@ -39,4 +44,4 @@ jobs:
           ssh ${{ secrets.VPS_IP }}
           docker rm -f k121bot
           docker pull michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
-          docker compose up -e TELEGRAM_TOKEN=${{TELEGRAM_TOKEN}} --build
+          docker compose up -e TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} --build
