@@ -38,11 +38,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-          
+
       - name: 🚀Deploy to server
         run: |
-          
           ssh -tt root@${{ secrets.VPS_IP }} -y
-          docker rm -f k121bot
-          docker pull michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
-          docker compose up -e TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} --build
