@@ -34,10 +34,12 @@ jobs:
           push: true
           tags: michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
 
-      - name: 🚀Deploy to server
+      - name: Setup ssh
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
+          
+      - name: 🚀Deploy to server
         run: |
           
           ssh -tt root@${{ secrets.VPS_IP }} -y
