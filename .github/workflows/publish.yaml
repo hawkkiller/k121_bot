@@ -41,7 +41,7 @@ jobs:
           
       - name: 🚀Deploy to server
         run: |
-          ssh ${{ secrets.VPS_IP }}
+          ssh root@${{ secrets.VPS_IP }}
           docker rm -f k121bot
           docker pull michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
           docker compose up -e TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} --build
