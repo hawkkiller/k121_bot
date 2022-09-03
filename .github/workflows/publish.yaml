@@ -1,12 +1,7 @@
 name: CICD-PIPE
 on:
   push:
-    branches:
-      - master
-      - feature/*
   pull_request:
-    branches:
-      - master
   workflow_dispatch:
     
 jobs:
