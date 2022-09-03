@@ -1,4 +1,5 @@
 name: CICD-PIPE
+
 on:
   push:
     branches:
@@ -8,9 +9,8 @@ on:
     branches:
       - master
   workflow_dispatch:
-    
-jobs:
 
+jobs:
   k121bot:
     runs-on: ubuntu-latest
     steps:
@@ -34,11 +34,11 @@ jobs:
           push: true
           tags: michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
 
-      - name: 🫡Setup SSH 
+      - name: 🫡Setup SSH
         uses: webfactory/ssh-agent@v0.5.4
-        with: 
+        with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-          
+
       - name: 🚀Deploy to server
         run: |
           ssh root@${{ secrets.VPS_IP }}
