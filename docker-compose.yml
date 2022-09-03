@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   bot:
+    restart: on-failure
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,20 +11,37 @@ services:
     ports:
       - "9000:9000"
     depends_on:
-      db:
-        condition: service_healthy
-    entrypoint: ["/app/wait-for-it.sh", "db:5432", "--", "./main"]
-    command: [ "/app/main" ]
+      - db
+      - flyway-migration
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - TELEGRAM_TOKEN=5038476456:AAE3pwITMe_EOc1cGiEbsjzHox7TF135Bsk
+  
+  flyway-migration:
+    image: flyway/flyway
+    restart: on-failure
+    depends_on:
+      - db
+    environment:
+      - FLYWAY_USER=postgres
+      - FLYWAY_PASSWORD=postgres
+      - FLYWAY_URL=jdbc:postgresql://db:5432/postgres
+      - FLYWAY_SCHEMAS=public
+    volumes:
+      - ./.helm/migration:/flyway/sql
+    command:
+      - migrate
+    networks:
+      - default
 
   db:
     image: postgres:latest
     networks:
-      default:
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - default
     volumes:
       - ./.database/postgres/data:/var/lib/postgresql/data
     environment:
@@ -31,7 +49,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       PGDATA: /tmp
-
     ports:
       - "5432:5432"
 networks:
