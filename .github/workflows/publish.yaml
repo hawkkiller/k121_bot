@@ -34,14 +34,20 @@ jobs:
           push: true
           tags: michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
 
-      - name: Setup ssh
+      - name: 👊Setup ssh
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-      - name: Add to known hosts
+
+      - name: 🤗Add to known hosts
         run: ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
+
+      - name: 🥳Sync directories
+        run: rsync -a . . root@${{ secrets.VPS_IP }}:/root/k121bot
 
       - name: 🚀Deploy to server
         run: |
-          rsync -a . . root@${{ secrets.VPS_IP }}:/root/k121bot
-          ssh root@${{ secrets.VPS_IP }} 'docker rm -f k121bot;docker pull michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }};export TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} && cd k121bot && docker-compose up --build -d;exit;' -y
+          ssh root@${{ secrets.VPS_IP }} 'docker rm -f k121bot;\
+          docker pull michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }};\
+          export TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} && cd k121bot && docker-compose up --build -d;\
+          exit;' -y
