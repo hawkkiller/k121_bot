@@ -3,13 +3,14 @@ package postgresql
 import (
 	"context"
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/hawkkiller/k121_bot/internal/config"
 	"github.com/hawkkiller/k121_bot/pkg/utils"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"log"
-	"time"
 )
 
 type Client interface {
@@ -20,7 +21,7 @@ type Client interface {
 }
 
 func NewClient(ctx context.Context, sc config.StorageConfig) (pool *pgxpool.Pool, err error) {
-	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=require",
+	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s",
 		sc.Username, sc.Password, sc.Host, sc.Port, sc.Database,
 	)
 	err = utils.DoWithTries(func() error {
