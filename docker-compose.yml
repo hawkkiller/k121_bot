@@ -19,7 +19,7 @@ services:
       - DATABASE_NAME=postgres
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=postgres
-      - TELEGRAM_TOKEN=5038476456:AAE3pwITMe_EOc1cGiEbsjzHox7TF135Bsk
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
   
   flyway-migration:
     image: flyway/flyway
