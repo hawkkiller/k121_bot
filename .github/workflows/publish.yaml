@@ -4,6 +4,10 @@ on:
     branches:
       - master
       - feature/*
+  pull_request:
+    branches:
+      - feature/*
+  
 jobs:
 
   k121bot:
@@ -29,27 +33,15 @@ jobs:
           push: true
           tags: michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
 
-      - name: 💎Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: 🍷Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
-
-      - name: Echo
-        run: echo "${{ secrets.DATABASE_DSN_JDBC }}"
-
-      - name: 🏋️Deploy
+      - name: 🫡Setup SSH 
+        uses: webfactory/ssh-agent@v0.5.4
+        with: 
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+      
+      - name: 🚀Deploy to server
         run: |
-          helm --debug upgrade --install \
-          -f ./.helm/values-dev.yaml \
-          --set image.tag=${{ steps.vars.outputs.sha_short }} \
-          --set db.host=${{ secrets.DATABASE_HOST }} \
-          --set db.url=${{ secrets.DATABASE_DSN_JDBC }} \
-          --set db.port=${{ secrets.DATABASE_PORT }} \
-          --set db.password=${{ secrets.DATABASE_PASSWORD }} \
-          --set db.username=${{ secrets.DATABASE_USERNAME }} \
-          --set db.name=${{ secrets.DATABASE_NAME }} \
-          --set telegram.token=${{ secrets.TELEGRAM_TOKEN }} \
-          k121bot ./.helm
+          ssh ${{ secrets.VPS_IP }}
+          docker pull michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
+          docker stop k121bot
+          docker rm k121bot
+          docker run -d --name k121bot michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
