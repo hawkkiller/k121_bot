@@ -32,7 +32,7 @@ jobs:
           context: .
           push: true
           tags: michaellazebny/k121bot:${{ steps.vars.outputs.sha_short }}
-
+          
       - name: 👊Setup ssh
         uses: webfactory/ssh-agent@v0.5.4
         with:
